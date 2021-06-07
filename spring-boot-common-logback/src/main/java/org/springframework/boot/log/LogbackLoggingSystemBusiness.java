@@ -51,11 +51,11 @@ public class LogbackLoggingSystemBusiness extends LogbackLoggingSystem {
         // 归档日志的文件名
         policy.setFileNamePattern(logAppender.getAppenderFilePattern());
         // 日志文件最大尺寸
-        policy.setMaxFileSize(FileSize.valueOf("16KB"));
+        policy.setMaxFileSize(FileSize.valueOf("10MB"));
         // 日志文件保留天数
         policy.setMaxHistory(5);
-        // 超过300M就清理日志
-        policy.setTotalSizeCap(FileSize.valueOf("48KB"));
+        // 超过50M就清理日志
+        policy.setTotalSizeCap(FileSize.valueOf("50MB"));
         policy.setParent(appender);
         policy.setContext(context);
         policy.start();
