@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fa8834cd-cd47-4590-a4d7-c1b5075028da" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="E:/maven" />
+        <option name="userSettingsFile" value="E:\maven\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
+  </component>
+  <component name="ProjectId" id="1sSmlEmDSUJDyAMiMnPoQai8YoE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/spring-boot-common-log4j2/src/main/resources" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.springframework.boot.log" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\java\spring-boot-common\spring-boot-common-log4j2\src\main\resources" />
+      <recent name="G:\java\spring-boot-common\spring-boot-common-logback" />
+      <recent name="G:\java\spring-boot-common\spring-boot-common-logback\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="SpringBootCommonTestApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="spring-boot-common-test" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.springframework.boot.test.SpringBootCommonTestApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fa8834cd-cd47-4590-a4d7-c1b5075028da" name="Default Changelist" comment="" />
+      <created>1620874513653</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1620874513653</updated>
+      <workItem from="1620874515557" duration="12018000" />
+      <workItem from="1622622781786" duration="57733000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="630" y="285" key="#com.intellij.debugger.actions.ViewTextAction" timestamp="1622708010758">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="630" y="285" key="#com.intellij.debugger.actions.ViewTextAction/0.0.1600.860@0.0.1600.860" timestamp="1622708010758" />
+    <state x="254" y="85" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620885578287">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="254" y="85" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1600.860@0.0.1600.860" timestamp="1620885578287" />
+    <state x="516" y="208" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1620885575688">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="516" y="208" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1600.860@0.0.1600.860" timestamp="1620885575688" />
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1623034626846">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1600.860@0.0.1600.860" timestamp="1623034626846" />
+    <state x="554" y="281" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1623033630040">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="554" y="281" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1600.860@0.0.1600.860" timestamp="1623033630040" />
+    <state width="538" height="466" key="DebuggerActiveHint" timestamp="1623037524604">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="538" height="466" key="DebuggerActiveHint/0.0.1600.860@0.0.1600.860" timestamp="1623037524604" />
+    <state width="1557" height="218" key="GridCell.Tab.0.bottom" timestamp="1623045035327">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="218" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1623045035327" />
+    <state width="1557" height="218" key="GridCell.Tab.0.center" timestamp="1623045035327">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="218" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1623045035327" />
+    <state width="1557" height="218" key="GridCell.Tab.0.left" timestamp="1623045035327">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="218" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1623045035327" />
+    <state width="1557" height="218" key="GridCell.Tab.0.right" timestamp="1623045035327">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="218" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1623045035327" />
+    <state width="1557" height="181" key="GridCell.Tab.1.bottom" timestamp="1623038740972">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="181" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1623038740972" />
+    <state width="1557" height="181" key="GridCell.Tab.1.center" timestamp="1623038740971">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="181" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1623038740971" />
+    <state width="1557" height="181" key="GridCell.Tab.1.left" timestamp="1623038740971">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="181" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1623038740971" />
+    <state width="1557" height="181" key="GridCell.Tab.1.right" timestamp="1623038740972">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="181" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1623038740972" />
+    <state width="1557" height="181" key="GridCell.Tab.2.bottom" timestamp="1623038740972">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="181" key="GridCell.Tab.2.bottom/0.0.1600.860@0.0.1600.860" timestamp="1623038740972" />
+    <state width="1557" height="181" key="GridCell.Tab.2.center" timestamp="1623038740972">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="181" key="GridCell.Tab.2.center/0.0.1600.860@0.0.1600.860" timestamp="1623038740972" />
+    <state width="1557" height="181" key="GridCell.Tab.2.left" timestamp="1623038740972">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="181" key="GridCell.Tab.2.left/0.0.1600.860@0.0.1600.860" timestamp="1623038740972" />
+    <state width="1557" height="181" key="GridCell.Tab.2.right" timestamp="1623038740972">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="181" key="GridCell.Tab.2.right/0.0.1600.860@0.0.1600.860" timestamp="1623038740972" />
+    <state x="301" y="72" key="SettingsEditor" timestamp="1623037114619">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="301" y="72" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1623037114619" />
+    <state x="294" y="135" key="new project wizard" timestamp="1620885522565">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="294" y="135" key="new project wizard/0.0.1600.860@0.0.1600.860" timestamp="1620885522565" />
+    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1623044760254">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1623044760254" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.4.5/spring-boot-2.4.5.jar!/org/springframework/boot/logging/log4j2/Log4J2LoggingSystem.class</url>
+          <line>111</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.4.5/spring-boot-2.4.5.jar!/org/springframework/boot/logging/log4j2/Log4J2LoggingSystem.class</url>
+          <line>131</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.4.5/spring-boot-2.4.5.jar!/org/springframework/boot/logging/logback/LogbackLoggingSystem.class</url>
+          <line>123</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

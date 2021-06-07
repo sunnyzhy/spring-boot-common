@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="10000">
+    <!-- 定义日志文件的存储路径 -->
+    <property name="LOG_PATH" value="./log"/>
+    <!-- 设置字符集 -->
+    <property name="CHARSET" value="UTF-8"/>
+    <!-- 文件的日志格式 -->
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
+    <!-- 单个日志文件最大值，达到之后就进行滚动 -->
+    <property name="MaxFileSize" value="10MB"/>
+    <!-- 日志文件保留的天数，也就是过期时间 -->
+    <property name="MaxHistory" value="5"/>
+    <!-- 日志文件总体的最大值，达到之后就不再产生日志 -->
+    <property name="TotalSizeCap" value="100MB"/>
+
+    <!-- 日志格式和颜色渲染 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+    <!-- 控制台的日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+
+    <!-- 控制台输出 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <!-- 按照每天生成日志文件 -->
+    <appender name="file"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/run.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--归档日志的文件名-->
+            <fileNamePattern>${LOG_PATH}/run.%d{yyyyMMdd}.%i.log</fileNamePattern>
+            <maxFileSize>${MaxFileSize}</maxFileSize>
+            <totalSizeCap>${TotalSizeCap}</totalSizeCap>
+            <maxHistory>${MaxHistory}</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- rocketmq日志 -->
+<!--    <appender name="rocketmq" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOG_PATH}/rocketmq_client.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_PATH}/rocketmq_client.%d{yyyyMMdd}.%i.log</fileNamePattern>-->
+<!--            <maxFileSize>${MaxFileSize}</maxFileSize>-->
+<!--            <totalSizeCap>${TotalSizeCap}</totalSizeCap>-->
+<!--            <maxHistory>${MaxHistory}</maxHistory>-->
+<!--            <cleanHistoryOnStart>true</cleanHistoryOnStart>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder>-->
+<!--            <pattern>${FILE_LOG_PATTERN}</pattern>-->
+<!--            <charset>${CHARSET}</charset>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--    <loggers>-->
+<!--        <logger name="RocketmqClient" level="INFO" additivity="false">-->
+<!--            <appender-ref ref="rocketmq"/>-->
+<!--        </logger>-->
+
+        <root level="INFO">
+            <appender-ref ref="console" />
+            <appender-ref ref="file" />
+        </root>
+<!--    </loggers>-->
+</configuration>

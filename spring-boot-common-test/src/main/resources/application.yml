@@ -1,0 +1,13 @@
+rocketmq:
+  nameserver: 20.0.0.252:9876
+  consumer:
+    groupname: st-alarm
+    threadmin: 8
+    threadmax: 16
+    tags: saftop-rt||dev-stat
+    dev:
+      topic: comm-dev-msg
+  producer:
+    groupname: st-alarm-producer
+    notify:
+      topic: st-alarm-notify

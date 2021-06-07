@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF -->
+<!-- configuration属性:
+        status: 配置log4j内部日志的输出级别，如果设置为DEBUG，就会输出log4j内部DEBUG及以上级别的日志
+        monitorInterval: 监测配置文件修改的时间间隔，单位是s，最小是5s -->
+<configuration status="WARN">
+    <!-- 全局参数 -->
+    <properties>
+        <!-- 定义日志文件的存储路径 -->
+        <property name="LOG_PATH" value="./log"/>
+        <!-- 文件的日志格式 -->
+        <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
+        <!-- 控制台的日志格式和颜色渲染 -->
+        <property name="CONSOLE_LOG_PATTERN"
+                  value="%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %highlight{${LOG_LEVEL_PATTERN:-%5p}} %style{%pid}{magenta} %style{---}{faint} %style{[%15.15t]}{faint} %style{%-40.40logger{39}}{cyan} %style{:}{faint} %m%n%throwable"/>
+        <!-- 文件大小超过10MB，就新建一个归档文件 -->
+        <property name="SIZE_BASED_TRIGGERING_POLICY_SIZE" value="10MB"></property>
+        <!-- 文件个数超过10个，就会删除旧的归档文件 -->
+        <property name="DEFAULT_ROLLOVER_STRATEGY_MAX" value="10"></property>
+        <!-- 要访问的目录的最大层级 -->
+        <property name="DELETE_MAX_DEPTH" value="1"></property>
+        <!-- 正则匹配要删除的文件 -->
+        <property name="DELETE_GLOB" value="*.log.gz"></property>
+        <!-- 归档文件的有效期 -->
+        <property name="DELETE_AGE" value="5d"></property>
+    </properties>
+
+    <appenders>
+        <!-- 输出到控制台 -->
+        <console name="console" target="SYSTEM_OUT">
+            <!-- 输出到控制台的日志格式，一定要启用ansi，否则颜色渲染无效 -->
+            <patternLayout pattern="${CONSOLE_LOG_PATTERN}" disableAnsi="false" noConsoleNoAnsi="false"/>
+        </console>
+
+        <!-- 输出DEBUG及以上级别的日志到文件，file属性:
+             name: file的名称
+             fileName: 输出的日志文件名
+             append: 程序重启，是否清空fileName的文件内容
+                     true: 不清空，日志以追加的形式写入fileName文件
+                     false: 清空 -->
+        <file name="all" fileName="${LOG_PATH}/run.log" append="false">
+            <patternLayout pattern="${LOG_PATTERN}"/>
+        </file>
+
+        <!-- rollingFile属性:
+             name：rollingFile的名称
+             fileName：输出的日志文件名
+             filePattern：归档的日志文件名 -->
+        <!-- 注意:
+                 1. 输出level及以上级别的日志到文件: thresholdFilter
+                 2. 输出level级别的日志到文件: filters#thresholdFilter -->
+        <!-- 输出DEBUG及以上级别的日志到文件，效果等价于上面name=all的file配置 -->
+        <rollingFile name="debugMore" fileName="${LOG_PATH}/run_debug_more.log"
+                     filePattern="${LOG_PATH}/run_debug_more-%d{yyyy-MM-dd HH-mm-ss}.%i.log.gz">
+            <!-- thresholdFilter属性:
+                 level: 日志级别
+                 onMatch: 表示匹配设定的日志级别后，是DENY还是ACCEPT还是NEUTRAL
+                          ACCEPT: 表示匹配该级别及以上;
+                          DENY: 表示不匹配该级别及以上;
+                          NEUTRAL: 表示该级别及以上的，由下一个filter处理，如果当前是最后一个，则表示匹配该级别及以上
+                 onMismatch: 表示不匹配设定的日志级别是DENY还是ACCEPT还是NEUTRAL
+                             ACCEPT: 表示匹配该级别以下;
+                             DENY: 表示不匹配该级别以下;
+                             NEUTRAL: 表示该级别及以下的，由下一个filter处理，如果当前是最后一个，则不匹配该级别以下
+            注意:
+                1. 如果有多个ThresholdFilter，那么必须配置在Filters内
+                2. 一定要先定义日志级别高的Filter -->
+            <!-- 输出DEBUG及以上级别的信息 -->
+            <thresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!-- patternLayout属性:
+                 pattern：输出到文件的日志格式 -->
+            <patternLayout pattern="${LOG_PATTERN}"/>
+            <!-- Policy滚动策略，如何生成新文件
+                 1. Policy滚动策略包含: SizeBasedTriggeringPolicy/CronTriggeringPolicy/TimeBasedTriggeringPolicy
+                 2. 一般来说，只需配置一种Policy滚动策略即可 -->
+            <policies>
+                <!-- 基于Cron表达式的触发策略，cronTriggeringPolicy属性:
+                     schedule: cron表达式
+                     示例: schedule="0/10 * * * * ?"
+                     描述: 每 10s 滚动一次 -->
+                <!-- <cronTriggeringPolicy schedule="0/10 * * * * ?" /> -->
+
+                <!-- 基于时间的滚动策略，timeBasedTriggeringPolicy属性:
+                     interval: Integer型，设置两次归档动作之间的时间间隔，默认值是1。
+                               这个配置需要和filePattern结合使用，filePattern日期格式精确到哪一位，interval也就精确到哪一个单位。
+                               示例: filePattern="%d{yyyy-MM-dd HH-mm-ss}-%i"，interval=1
+                               描述: 每1秒钟生成一个归档文件
+                               示例: filePattern="%d{yyyy-MM-dd HH}-%i"，interval=1
+                               描述: 每1小时生成一个归档文件
+                     modulate: Boolean型，说明是否对归档时间进行调制。如果值为true，则归档时间以0点为边界进行偏移计算。
+                               示例: modulate=true，interval=4hours
+                               描述: 假设上次归档日志的时间是03:00，则下次归档日志的时间为04:00，之后的归档时间依次为08:00，12:00，16:00 -->
+                <!-- <timeBasedTriggeringPolicy interval="10"/> -->
+
+                <!-- 基于文件大小的滚动策略，timeBasedTriggeringPolicy属性:
+                     size: 属性用来定义每个日志文件的大小，单位: KB/MB/GB
+                     示例: size="10MB"
+                     描述: 文件大小超过10MB，就新建一个归档文件 -->
+                <sizeBasedTriggeringPolicy size="${SIZE_BASED_TRIGGERING_POLICY_SIZE}"/>
+            </policies>
+            <!-- Strategy滚动策略，如何删除旧文件
+                 defaultRolloverStrategy滚动策略，属性:
+                 max: 保存日志文件的最大个数，默认是7，大于此值会删除旧的日志文件
+                 示例: max=10
+                 描述: 文件个数超过10个，就会删除旧的归档文件 -->
+            <defaultRolloverStrategy max="${DEFAULT_ROLLOVER_STRATEGY_MAX}">
+                <!-- delete属性:
+                     basePath: 必填属性，要删除文件的基本路径
+                     maxDepth: 要访问的目录的最大层级，默认为1，表示当前目录
+                     testMode: 默认false。如果为true，文件将不会被删除，而是将信息打印到info级别的日志文件里,可以利用这个来测试，配置是否和我们预期的一样
+                     glob: 正则匹配要删除的文件
+                     age: 必填属性，归档文件的有效期
+
+                     示例: filePattern="info-%d{yyyy-MM-dd HH-mm-ss}.log.gz，interval="10"，IfLastModified age="1m"
+                     描述: 每10秒新建一个归档文件，1分钟之后删除该归档文件。
+
+                     示例: filePattern="info-%d{yyyy-MM-dd HH-mm}.log.gz，interval="1"，IfLastModified age="10m"
+                     描述: 每1分钟新建一个归档文件，10分钟之后删除该归档文件。
+
+                     示例: filePattern="info-%d{yyyy-MM-dd}.log.gz，interval="1"，IfLastModified age="5d"
+                     描述: 每天新建一个归档文件，5天之后删除该归档文件。 -->
+                <delete basePath="${LOG_PATH}/" maxDepth="${DELETE_MAX_DEPTH}">
+                    <ifFileName glob="${DELETE_GLOB}" />
+                    <ifLastModified age="${DELETE_AGE}" />
+                </delete>
+            </defaultRolloverStrategy>
+
+            <!--示例配置说明:
+                1. 单个文件大小为10MB，如果超过10MB，就创建新的日志文件，并归档旧文件
+
+                ====== 注意，Strategy滚动策略的单位是天 ======
+                2. 每天最多产生3个归档文件，注意是每天，不是所有天数最多产生3个归档文件
+                ====== 注意，max参数不是需要保留的所有归档文件的总的最大数目。理解这一点很重要 ======
+
+                3. 归档文件的有效期为5天，超过5天就会被删除。比如5号及之前产生的归档文件，会在10号被删除
+
+                ====== 注意，5-9号，这5天之内最多产生的归档文件数量是15，而不是3 ======
+                4. 5-9号，这5天之内产生的归档文件数量是5*3=15，归档文件的总大小是5*3*10=150MB
+                ====== 注意，理解这一点很重要 ======
+
+                <policies>
+                    <sizeBasedTriggeringPolicy size="10MB"/>
+                 </policies>
+                 <defaultRolloverStrategy max="3">
+                    <delete basePath="${LOG_PATH}/" maxDepth="1">
+                        <ifFileName glob="*.log" />
+                        <ifLastModified age="5d" />
+                    </delete>
+                 </defaultRolloverStrategy> -->
+        </rollingFile>
+        <!-- 输出DEBUG日志到文件 -->
+        <rollingFile name="debug" fileName="${LOG_PATH}/run_debug.log"
+                     filePattern="${LOG_PATH}/run_debug-%d{yyyy-MM-dd}.%i.log.gz">
+            <!-- 1. 如果有多个ThresholdFilter，那么必须配置在Filters内 -->
+            <!-- 2. 一定要先定义日志级别高的Filter -->
+            <filters>
+                <!-- 拒绝INFO及以上级别的信息 -->
+                <thresholdFilter level="INFO"  onMatch="DENY" onMismatch="NEUTRAL"/>
+                <!-- 输出DEBUG及以上级别的信息 -->
+                <thresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </filters>
+            <!-- 输出到文件的日志格式 -->
+            <patternLayout pattern="${LOG_PATTERN}"/>
+            <policies>
+                <!-- 基于文件大小的滚动策略 -->
+                <sizeBasedTriggeringPolicy size="${SIZE_BASED_TRIGGERING_POLICY_SIZE}"/>
+            </policies>
+            <!-- Strategy滚动策略 -->
+            <defaultRolloverStrategy max="${DEFAULT_ROLLOVER_STRATEGY_MAX}">
+                <delete basePath="${LOG_PATH}/" maxDepth="${DELETE_MAX_DEPTH}">
+                    <ifFileName glob="${DELETE_GLOB}" />
+                    <ifLastModified age="${DELETE_AGE}" />
+                </delete>
+            </defaultRolloverStrategy>
+        </rollingFile>
+        <!-- 输出INFO日志到文件 -->
+        <rollingFile name="info" fileName="${LOG_PATH}/run_info.log"
+                     filePattern="${LOG_PATH}/run_info-%d{yyyy-MM-dd}.%i.log.gz">
+            <!-- 1. 如果有多个ThresholdFilter，那么必须配置在Filters内 -->
+            <!-- 2. 一定要先定义日志级别高的Filter -->
+            <filters>
+                <!-- 拒绝WARN及以上级别的信息 -->
+                <thresholdFilter level="WARN"  onMatch="DENY" onMismatch="NEUTRAL"/>
+                <!-- 输出INFO及以上级别的信息 -->
+                <thresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </filters>
+            <!-- 输出到文件的日志格式 -->
+            <patternLayout pattern="${LOG_PATTERN}"/>
+            <policies>
+                <!-- 基于文件大小的滚动策略 -->
+                <sizeBasedTriggeringPolicy size="${SIZE_BASED_TRIGGERING_POLICY_SIZE}"/>
+            </policies>
+            <!-- Strategy滚动策略 -->
+            <defaultRolloverStrategy max="${DEFAULT_ROLLOVER_STRATEGY_MAX}">
+                <delete basePath="${LOG_PATH}/" maxDepth="${DELETE_MAX_DEPTH}">
+                    <ifFileName glob="${DELETE_GLOB}" />
+                    <ifLastModified age="${DELETE_AGE}" />
+                </delete>
+            </defaultRolloverStrategy>
+        </rollingFile>
+        <!-- 输出WARN日志到文件 -->
+        <rollingFile name="warn" fileName="${LOG_PATH}/run_warn.log"
+                     filePattern="${LOG_PATH}/run_warn-%d{yyyy-MM-dd}.%i.log.gz">
+            <!-- 1. 如果有多个ThresholdFilter，那么必须配置在Filters内 -->
+            <!-- 2. 一定要先定义日志级别高的Filter -->
+            <filters>
+                <!-- 拒绝ERROR及以上级别的信息 -->
+                <thresholdFilter level="ERROR"  onMatch="DENY" onMismatch="NEUTRAL"/>
+                <!-- 输出WARN及以上级别的信息 -->
+                <thresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            </filters>
+            <!-- 输出到文件的日志格式 -->
+            <patternLayout pattern="${LOG_PATTERN}"/>
+            <policies>
+                <!-- 基于文件大小的滚动策略 -->
+                <sizeBasedTriggeringPolicy size="${SIZE_BASED_TRIGGERING_POLICY_SIZE}"/>
+            </policies>
+            <!-- Strategy滚动策略 -->
+            <defaultRolloverStrategy max="${DEFAULT_ROLLOVER_STRATEGY_MAX}">
+                <delete basePath="${LOG_PATH}/" maxDepth="${DELETE_MAX_DEPTH}">
+                    <ifFileName glob="${DELETE_GLOB}" />
+                    <ifLastModified age="${DELETE_AGE}" />
+                </delete>
+            </defaultRolloverStrategy>
+        </rollingFile>
+        <!-- 输出ERROR日志到文件 -->
+        <rollingFile name="error" fileName="${LOG_PATH}/run_error.log"
+                     filePattern="${LOG_PATH}/run_error-%d{yyyy-MM-dd}.%i.log.gz">
+            <!-- 输出ERROR及以上级别的信息 -->
+            <thresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!-- 输出到文件的日志格式 -->
+            <patternLayout pattern="${LOG_PATTERN}"/>
+            <policies>
+                <!-- 基于文件大小的滚动策略 -->
+                <sizeBasedTriggeringPolicy size="${SIZE_BASED_TRIGGERING_POLICY_SIZE}"/>
+            </policies>
+            <!-- Strategy滚动策略 -->
+            <defaultRolloverStrategy max="${DEFAULT_ROLLOVER_STRATEGY_MAX}">
+                <delete basePath="${LOG_PATH}/" maxDepth="${DELETE_MAX_DEPTH}">
+                    <ifFileName glob="${DELETE_GLOB}" />
+                    <ifLastModified age="${DELETE_AGE}" />
+                </delete>
+            </defaultRolloverStrategy>
+        </rollingFile>
+    </appenders>
+
+    <!-- 只有在logger/root里引用了appender，appender才会生效 -->
+    <!-- root是根logger， logger是子logger，即logger是root的子类 -->
+    <loggers>
+        <!-- logger用来设置某一个包或者具体的某一个类的日志打印级别
+             logger属性:
+                name: 用来指定受此logger约束的某一个包或者具体的某一个类
+                level: 用来设置日志的输出级别（日志级别）: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
+                additivity: 是否向上级logger传递日志的输出信息，默认是true
+                            true: 会在当前logger和root的appender里输出信息
+                            false: 只会在当前logger的appender里输出信息 -->
+        <!-- 只输出spring的INFO及以上级别的日志 -->
+        <logger name="org.springframework" level="INFO" additivity="false"/>
+        <!-- 1. root是<logger>元素，但是它是根logger，只有一个level属性
+             2. 如果没有配置logger，那么就默认使用root输出日志
+             3. root可以包含零个或多个<appender-ref>元素
+             4. 只有在logger/root里引用了appender，appender才会生效
+             5. root属性:
+                    level: 用来设置日志的输出级别（日志级别）: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF，默认是DEBUG
+                    示例: INFO
+                    描述: 输出INFO及以上级别的日志，如果level=INFO，那么即使引用了DEBUG的appender，也不会输出DEBUG级别的日志 -->
+        <root level="DEBUG">
+            <appender-ref ref="console"/>
+            <appender-ref ref="all"/>
+            <appender-ref ref="debugMore"/>
+            <appender-ref ref="debug"/>
+            <appender-ref ref="info"/>
+            <appender-ref ref="warn"/>
+            <appender-ref ref="error"/>
+        </root>
+    </loggers>
+</configuration>

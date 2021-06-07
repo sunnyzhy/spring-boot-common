@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF -->
+<!-- configuration属性:
+        status: 配置log4j内部日志的输出级别，如果设置为DEBUG，就会输出log4j内部DEBUG及以上级别的日志
+        monitorInterval: 监测配置文件修改的时间间隔，单位是s，最小是5s -->
+<configuration status="WARN">
+    <!-- 全局参数 -->
+    <properties>
+        <!-- 定义日志文件的存储路径 -->
+        <property name="LOG_PATH" value="./log"/>
+        <!-- 文件的日志格式 -->
+        <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
+        <!-- 控制台的日志格式和颜色渲染 -->
+        <property name="CONSOLE_LOG_PATTERN"
+                  value="%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %highlight{${LOG_LEVEL_PATTERN:-%5p}} %style{%pid}{magenta} %style{---}{faint} %style{[%15.15t]}{faint} %style{%-40.40logger{39}}{cyan} %style{:}{faint} %m%n%throwable"/>
+        <!-- 文件大小超过10MB，就新建一个归档文件 -->
+        <property name="SIZE_BASED_TRIGGERING_POLICY_SIZE" value="10MB"></property>
+        <!-- 文件个数超过5个，就会删除旧的归档文件 -->
+        <property name="DEFAULT_ROLLOVER_STRATEGY_MAX" value="5"></property>
+        <!-- 要访问的目录的最大层级 -->
+        <property name="DELETE_MAX_DEPTH" value="1"></property>
+        <!-- 正则匹配要删除的文件 -->
+        <property name="DELETE_GLOB" value="*.log.gz"></property>
+        <!-- 归档文件的有效期 -->
+        <property name="DELETE_AGE" value="5d"></property>
+    </properties>
+
+    <appenders>
+        <!-- 输出到控制台 -->
+        <console name="console" target="SYSTEM_OUT">
+            <!-- 输出到控制台的日志格式，一定要启用ansi，否则颜色渲染无效 -->
+            <patternLayout pattern="${CONSOLE_LOG_PATTERN}" disableAnsi="false" noConsoleNoAnsi="false"/>
+        </console>
+
+        <rollingFile name="file" fileName="${LOG_PATH}/run.log"
+                     filePattern="${LOG_PATH}/run.%d{yyyyMMdd}.%i.log.gz">
+            <patternLayout pattern="${LOG_PATTERN}"/>
+            <policies>
+                <sizeBasedTriggeringPolicy size="${SIZE_BASED_TRIGGERING_POLICY_SIZE}"/>
+            </policies>
+            <defaultRolloverStrategy max="${DEFAULT_ROLLOVER_STRATEGY_MAX}">
+                <delete basePath="${LOG_PATH}/" maxDepth="${DELETE_MAX_DEPTH}">
+                    <ifFileName glob="${DELETE_GLOB}" />
+                    <ifLastModified age="${DELETE_AGE}" />
+                </delete>
+            </defaultRolloverStrategy>
+        </rollingFile>
+
+<!--        <rollingFile name="rocketmq" fileName="${LOG_PATH}/rocketmq_client.log"-->
+<!--                     filePattern="${LOG_PATH}/rocketmq_client.%d{yyyyMMdd}.%i.log.gz">-->
+<!--            <patternLayout pattern="${LOG_PATTERN}"/>-->
+<!--            <policies>-->
+<!--                <sizeBasedTriggeringPolicy size="${SIZE_BASED_TRIGGERING_POLICY_SIZE}"/>-->
+<!--            </policies>-->
+<!--            <defaultRolloverStrategy max="${DEFAULT_ROLLOVER_STRATEGY_MAX}">-->
+<!--                <delete basePath="${LOG_PATH}/" maxDepth="${DELETE_MAX_DEPTH}">-->
+<!--                    <ifFileName glob="${DELETE_GLOB}" />-->
+<!--                    <ifLastModified age="${DELETE_AGE}" />-->
+<!--                </delete>-->
+<!--            </defaultRolloverStrategy>-->
+<!--        </rollingFile>-->
+    </appenders>
+
+    <loggers>
+<!--        <logger name="RocketmqClient" level="INFO" additivity="false">-->
+<!--            <appender-ref ref="rocketmq"/>-->
+<!--        </logger>-->
+        <root level="INFO">
+            <appender-ref ref="console"/>
+            <appender-ref ref="file"/>
+        </root>
+    </loggers>
+</configuration>
